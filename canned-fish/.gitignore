@@ -1,7 +1,3 @@
-# Custom ignores
-research/
-keys/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -104,6 +100,9 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
+
+# vscode
+.vscode/
 
 # Environments
 .env
