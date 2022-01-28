@@ -1,1 +1,2 @@
-from .fishcan import Fishcan
+from ._fishcan import Fishcan
+from ._game import Game

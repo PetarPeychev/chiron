@@ -10,6 +10,8 @@ import requests
 import pg8000.native
 from google.cloud import bigquery
 
+from ._game import Game
+
 
 class Fishcan:
 
@@ -44,9 +46,12 @@ class Fishcan:
 
         processed = 0
         while True:
-            game = chess.pgn.read_game(pgn)
-            if game is not None:
-                self._process_game(game)
+            pychess_game = chess.pgn.read_game(pgn)
+            if pychess_game is not None:
+                game = Game.from_pychess(pychess_game, username,
+                                         lichess_username)
+                game.analyse(self.engine)
+                game.to_bigquery(self.bigquery)
                 processed += 1
             else:
                 break
@@ -76,38 +81,38 @@ class Fishcan:
         else:
             return datetime(year=1900, month=1, day=1)
 
-    def _insert_game(
-        self,
-        lichess_id: str,
-        player_white: str,
-        player_black: str,
-        user: str,
-        result: str,
-        user_is_white: bool,
-        elo_white: int,
-        elo_black: int,
-    ) -> None:
-        query_job = self.bigquery.query(f"""
-            INSERT `chiron-chess.dev.games`
-            VALUES (
-                "aaaa1111",
-                "petarpeychev",
-                "randomnoob",
-                "petarpeychev",
-                "1-0",
-                True,
-                1400,
-                1350,
-                "2022-01-10 01:45:00",
-                "300+3",
-                "blitz",
-                "A45",
-                3,
-                "Time forfeit",
-                [
-                    ("d4", 0.53, "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1"),
-                    ("d5", 0.52, "rnbqkbnr/ppp1pppp/8/3p4/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 0 2"),
-                    ("Bf4", 0.51, "rnbqkbnr/ppp1pppp/8/3p4/3P1B2/8/PPP1PPPP/RN1QKBNR b KQkq - 1 2")
-                ]
-            );
-            """)
+    # def _insert_game(
+    #     self,
+    #     lichess_id: str,
+    #     player_white: str,
+    #     player_black: str,
+    #     user: str,
+    #     result: str,
+    #     user_is_white: bool,
+    #     elo_white: int,
+    #     elo_black: int,
+    # ) -> None:
+    #     query_job = self.bigquery.query(f"""
+    #         INSERT `chiron-chess.dev.games`
+    #         VALUES (
+    #             "aaaa1111",
+    #             "petarpeychev",
+    #             "randomnoob",
+    #             "petarpeychev",
+    #             "1-0",
+    #             True,
+    #             1400,
+    #             1350,
+    #             "2022-01-10 01:45:00",
+    #             "300+3",
+    #             "blitz",
+    #             "A45",
+    #             3,
+    #             "Time forfeit",
+    #             [
+    #                 ("d4", 0.53, "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1"),
+    #                 ("d5", 0.52, "rnbqkbnr/ppp1pppp/8/3p4/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 0 2"),
+    #                 ("Bf4", 0.51, "rnbqkbnr/ppp1pppp/8/3p4/3P1B2/8/PPP1PPPP/RN1QKBNR b KQkq - 1 2")
+    #             ]
+    #         );
+    #         """)
