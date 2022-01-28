@@ -1,0 +1,1 @@
+from .fishcan import Fishcan
