@@ -10,7 +10,7 @@ import requests
 import pg8000.native
 from google.cloud import bigquery
 
-from ._game import Game
+from ._chess import Game
 
 
 class Fishcan:

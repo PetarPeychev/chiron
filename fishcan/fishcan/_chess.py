@@ -8,6 +8,32 @@ import chess.pgn
 import chess.engine
 from google.cloud import bigquery
 
+# PIECE_VALUES = zip([1, 3, 3, 5, 9, 0], chess.PIECE_TYPES)
+
+
+class Move:
+
+    def __init__(self):
+        self.board = None
+        self.score = None
+
+    # def material_value(self, colour: chess.Color) -> int:
+    #     values = []
+    #     for piece in chess.PIECE_TYPES:
+    #         values.append(PIECE_VALUES[piece] *
+    #                       len(self.board.pieces(piece, colour)))
+    #     return sum(values)
+
+    # def piece_count(self, colour: chess.Color) -> int:
+    #     values = []
+    #     for piece in chess.PIECE_TYPES:
+    #         values.append(PIECE_VALUES[piece] *
+    #                       len(self.board.pieces(piece, colour)))
+    #     return sum(values)
+
+    # def pawn_count(self, colour: chess.Color) -> int:
+    #     return self.board.pieces(chess.PAWN, colour)
+
 
 class Game:
 
@@ -58,7 +84,8 @@ class Game:
                 game.result = "draw"
             else:
                 raise ValueError()
-        elif game.pychess_game.headers["White"].lower() == lichess_user.lower():
+        elif game.pychess_game.headers["White"].lower() == lichess_user.lower(
+        ):
             game.colour_player = "white"
             game.name_opponent = game.pychess_game.headers["Black"]
             game.elo_player = game.pychess_game.headers["WhiteElo"]
@@ -86,7 +113,20 @@ class Game:
         return game
 
     def analyse(self, engine: chess.engine.SimpleEngine) -> None:
-        pass
+        moves = {}
+        last_move = None
+        for pychess_move in self.pychess_game.mainline():
+            move = Move()
+            move.board = pychess_move.board()
+            
+            info = engine.analyse(move.board, chess.engine.Limit(time=0.1))
+            relative_score = info[
+                "score"].white() if self.colour_player is "white" else info[
+                    "score"].black()
+            move_score = relative_score.score(mate_score=1000)
+            move.score = move_score
+            
+            last_move = move
 
     def to_bigquery(self, client: bigquery.Client):
         with open("output/" + str(randint(1, 100)), 'wb') as fh:

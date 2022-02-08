@@ -7,6 +7,7 @@ name = "pypi"
 chess = "*"
 google-cloud-bigquery = "*"
 django = "*"
+django-materializecss-form = "*"
 
 [dev-packages]
 pytest = "*"
