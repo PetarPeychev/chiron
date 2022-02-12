@@ -9,6 +9,8 @@ from .forms import *
 from .models import *
 
 
-@login_required(login_url="/login")
 def index(request):
-    return render(request, "index.html")
+    if request.user.is_authenticated:
+        return render(request, "home.html")
+    else:
+        return render(request, "index.html")

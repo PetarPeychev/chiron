@@ -1,0 +1,24 @@
+:root {
+    --main-bg-color: #cfc4b7;
+    --secondary-bg-color: #fff;
+    --ternary-bg-color: #97A1A6;
+
+    --primary-fg-color: #8f5726;
+    --secondary-fg-color: #782A09;
+}
+
+body {
+    background-color: var(--main-bg-color);
+}
+
+.fg-colour {
+    background-color: var(--primary-fg-color);
+}
+
+.bg-colour {
+    background-color: var(--secondary-bg-color);
+}
+
+.form-container {
+    padding: 20px;
+}

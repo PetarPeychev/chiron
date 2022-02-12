@@ -1,6 +1,7 @@
 # Custom ignores
 research/
 keys/
+canned-fish/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

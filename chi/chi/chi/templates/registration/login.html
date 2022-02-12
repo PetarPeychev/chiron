@@ -1,12 +1,23 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load materializecss %}
 
-{% block title %}Login{% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2>Log In</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
-</form>
+<div class="container">
+  <div class="form-container">
+    <div class="form-card">
+      <img src="{% static 'chiron.png' %}" alt="Chiron">
+      <h5>Sign in to Chiron</h5>
+    </div>
+    <form method="post" class="bg-colour">
+      {% csrf_token %}
+      {{ form|materializecss }}
+      <button class="waves-effect waves-light btn fg-colour" type="submit">Sign In</button>
+    </form>
+  </div>
+</div>
 {% endblock %}
