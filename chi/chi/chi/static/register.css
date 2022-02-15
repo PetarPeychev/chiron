@@ -43,9 +43,23 @@ form .btn {
     background-color: rgb(73, 73, 73);
 }
 
-@media only screen and (max-width: 360px) {
+@media only screen and (max-width: 400px) {
     .form-card img {
         height: 160px;
         width: 160px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .form-card img {
+        height: 120px;
+        width: 120px;
+    }
+}
+
+@media only screen and (max-width: 340px) {
+    .form-card img {
+        height: 100px;
+        width: 100px;
     }
 }

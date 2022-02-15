@@ -23,5 +23,6 @@ import chi.views as views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/register', views.register, name='register'),
     path('', views.index, name='index'),
 ]

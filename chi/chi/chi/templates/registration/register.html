@@ -3,7 +3,7 @@
 {% load materializecss %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'register.css' %}">
 {% endblock %}
 
 {% block header %}
@@ -14,7 +14,7 @@
   <div class="form-container">
     <div class="form-card">
       <img src="{% static 'chiron.png' %}" alt="Chiron">
-      <h5 class="grey-text text-lighten-4">Sign in to Chiron</h5>
+      <h5 class="grey-text text-lighten-4">Sign up for Chiron</h5>
     </div>
     <form method="post" class="grey lighten-4">
       {% csrf_token %}
@@ -22,11 +22,11 @@
       <button class="waves-effect waves-light btn chiron-red" type="submit">Sign In</button>
     </form>
     <div class="form-extra">
-      <span>New to Chiron? <a href="{% url 'register' %}">Create an account.</a></span>
+      <span>Already have an account? <a href="{% url 'login' %}">Sign in.</a></span>
     </div>
   </div>
 </div>
 {% endblock %}
 
 {% block footer %}
-{% endblock %}
+{% endblock %}  

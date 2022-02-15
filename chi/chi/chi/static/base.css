@@ -1,24 +1,45 @@
-:root {
-    --main-bg-color: #cfc4b7;
-    --secondary-bg-color: #fff;
-    --ternary-bg-color: #97A1A6;
-
-    --primary-fg-color: #8f5726;
-    --secondary-fg-color: #782A09;
-}
-
 body {
-    background-color: var(--main-bg-color);
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
-.fg-colour {
-    background-color: var(--primary-fg-color);
-}
-
-.bg-colour {
-    background-color: var(--secondary-bg-color);
-}
+main {
+    flex: 1 0 auto;
+  }
 
 .form-container {
     padding: 20px;
+}
+
+.page-footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.nav-wrapper {
+    padding-left: 10px;
+}
+
+.sidenav li>a {
+    color: gainsboro;
+}
+
+.sidenav li>a>i.material-icons {
+    color: gainsboro;
+}
+
+.chiron-red {
+    background-color: #f44e57;
+}
+
+.brand-logo>img {
+    float: left;
+    width: 62px;
+}
+
+@media only screen and (max-width: 600px) {
+    .brand-logo>img {
+        width: 54px;
+    }
 }
