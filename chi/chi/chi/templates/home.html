@@ -1,8 +1,77 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Chiron: Your AI Chess Coach{% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container">
+  <div class="row">
+    <div class="col l12 m12 s12">
+      <div class="card grey-1">
+        <div class="card-content ">
+          <span class="card-title">{{ user.first_name }} {{ user.last_name }} ({{ user.username }})</span>
+        </div>
+        <div class="card-tabs">
+          <ul class="tabs tabs-fixed-width">
+            <li class="tab"><a href="#bullet"><img class="time-icon" src="{% static 'img/bullet.png' %}"><span
+                  class="time-text">Bullet</span></a></li>
+            <li class="tab"><a class="active" href="#blitz"><img class="time-icon"
+                  src="{% static 'img/blitz.png' %}"><span class="time-text">Blitz</span></a></li>
+            <li class="tab"><a href="#rapid"><img class="time-icon" src="{% static 'img/rapid.png' %}"><span
+                  class="time-text">Rapid</span></a></li>
+            <li class="tab"><a href="#classical"><img class="time-icon" src="{% static 'img/classical.png' %}"><span
+                  class="time-text">Classial</span></a></li>
+          </ul>
+        </div>
+        <div class="card-content rating-graphs grey-2">
+          <div id="bullet"><canvas id="rating-bullet"></canvas></div>
+          <div id="blitz"><canvas id="rating-blitz"></canvas></div>
+          <div id="rapid"><canvas id="rating-rapid"></canvas></div>
+          <div id="classical"><canvas id="rating-classical"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 m6 l4">
+      <div class="card chart-card grey-1">
+        <div class="card-content">
+          <span class="card-title">Games Played</span>
+          <canvas id="games-pie"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12 m6 l4">
+      <div class="card chart-card grey-1">
+        <div class="card-content ">
+          <span class="card-title">Chart Card 2</span>
+          <canvas id="chart2"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12 m6 l4">
+      <div class="card chart-card grey-1">
+        <div class="card-content ">
+          <span class="card-title">Chart Card 3</span>
+          <canvas id="chart3"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+<script src="{% static 'js/home.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    populate_rating_history({{rating_history|safe}});
+  });
+</script>
 {% endblock %}

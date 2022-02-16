@@ -4,11 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+lyre = {editable = true, path = "."}
 chess = "*"
+pg8000 = "*"
 google-cloud-bigquery = "*"
-django = "*"
-django-materializecss-form = "*"
-django-cors-headers = "*"
 
 [dev-packages]
 pytest = "*"
@@ -17,7 +16,6 @@ yapf = "*"
 docformatter = "*"
 pdoc3 = "*"
 pytest-pylint = "*"
-autopep8 = "*"
 
 [requires]
 python_version = "3.8"
