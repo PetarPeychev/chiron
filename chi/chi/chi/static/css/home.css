@@ -1,5 +1,5 @@
 :root {
-    --red: #f44e57;
+    --red: #f44e56;
     --grey-1: #484848;
     --grey-2: #565656;
     --grey-3: #646464;
@@ -57,6 +57,11 @@ body {
 
 .chart-card .card-content {
     padding: 10px;
+    text-align: center;
+}
+
+.card-content {
+    font-size: medium;
 }
 
 .chart-card .card-title {
