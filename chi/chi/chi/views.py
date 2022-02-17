@@ -1,5 +1,6 @@
 import random
 from typing import Dict, Any
+from pprint import pprint
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -15,6 +16,11 @@ from .models import *
 def index(request):
     if request.user.is_authenticated:
         rating_history = LichessClient.get_user_rating_history("petarpeychev")
+        user_data = LichessClient.get_user_data("petarpeychev")
+        bullet_performance = LichessClient.get_performance_statistics("petarpeychev", "bullet")
+        blitz_performance = LichessClient.get_performance_statistics("petarpeychev", "blitz")
+        rapid_performance = LichessClient.get_performance_statistics("petarpeychev", "rapid")
+        classical_performance = LichessClient.get_performance_statistics("petarpeychev", "classical")
         
         bullet_data = []
         bullet_labels = []
@@ -53,7 +59,12 @@ def index(request):
                 "rapid_labels": rapid_labels,
                 "classical_data": classical_data,
                 "classical_labels": classical_labels
-            }
+            },
+            "user_data": user_data,
+            "bullet_performance": bullet_performance,
+            "blitz_performance": blitz_performance,
+            "rapid_performance": rapid_performance,
+            "classical_performance": classical_performance,
         })
     else:
         return render(request, "index.html")

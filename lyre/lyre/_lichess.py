@@ -45,3 +45,23 @@ class LichessClient:
             return response.json()
         else:
             raise ConnectionError()
+        
+    def get_performance_statistics(username: str, time_control: str) -> Dict[str, Any]:
+        """Get performance statistics for a single game type.
+
+        Args:
+            username (str): lichess username
+            time_control (str): time control (blitz, bullet, ...)
+
+        Raises:
+            ConnectionError: raised if request status code is not 200
+
+        Returns:
+            Dict[str, Any]: json response
+        """        
+        response = requests.get(f"https://lichess.org/api/user/{username}/perf/{time_control}")
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            raise ConnectionError()

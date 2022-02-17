@@ -1,5 +1,5 @@
 :root {
-    --red: #f44e56;
+    --red: rgb(244, 78, 86);
     --grey-1: #484848;
     --grey-2: #565656;
     --grey-3: #646464;
@@ -51,7 +51,7 @@ body {
     float: left;
 }
 
-.chart-card #games-pie {
+#bullet-games-pie, #blitz-games-pie, #rapid-games-pie, #classical-games-pie, #bullet-results-pie, #blitz-results-pie, #rapid-results-pie, #classical-results-pie {
     max-height: 250px;
 }
 
@@ -69,8 +69,8 @@ body {
 }
 
 #rating-blitz, #rating-bullet, #rating-rapid, #rating-classical {
-    min-height: 200px;
-    max-height: 300px;
+    min-height: 180px;
+    max-height: 200px;
 }
 
 @media only screen and (max-width: 600px) {
