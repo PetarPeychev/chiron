@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load materializecss %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="form-container">
+    <div class="form-card">
+      <img src="{% static 'img/chiron.png' %}" alt="Chiron">
+      <h5 class="grey-text text-lighten-4">Sign up for Chiron</h5>
+    </div>
+    <form method="post" class="grey lighten-4">
+      {% csrf_token %}
+      {{ form|materializecss }}
+      <button class="waves-effect waves-light btn chiron-red" type="submit">Sign In</button>
+    </form>
+    <div class="form-extra">
+      <span>Already have an account? <a href="{% url 'login' %}">Sign in.</a></span>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}  

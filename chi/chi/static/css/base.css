@@ -1,0 +1,86 @@
+:root {
+    --red: #f44e57;
+    --grey-1: #484848;
+    --grey-2: #565656;
+    --grey-3: #646464;
+    --grey-4: #727272;
+    --grey-5: #808080;
+    --grey-6: #888888;
+    --grey-7: #969696;
+    --grey-8: #a4a4a4;
+    --grey-9: #b2b2b2;
+    --grey-10: #cccccc;
+    --grey-11: #c8c8c8;
+    --grey-12: #d6d6d6;
+    --grey-13: #e4e4e4;
+    --grey-14: #f2f2f2;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background: #404040;
+    color: var(--grey-14);
+}
+
+main {
+    flex: 1 0 auto;
+  }
+
+nav {
+    background: #121212;
+}
+
+.form-container {
+    padding: 20px;
+}
+
+.page-footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+footer {
+    background: #181818;
+}
+
+footer li {
+    display: inline-block;
+    padding-left: 15px;
+}
+
+footer ul {
+    margin: 0;
+}
+
+footer a, footer span {
+    color: #d8d8d8;
+}
+
+.nav-wrapper {
+    padding-left: 10px;
+}
+
+.sidenav li>a {
+    color: gainsboro;
+}
+
+.sidenav li>a>i.material-icons {
+    color: gainsboro;
+}
+
+.chiron-red {
+    background-color: var(--red);
+}
+
+.brand-logo>img {
+    float: left;
+    width: 62px;
+}
+
+@media only screen and (max-width: 600px) {
+    .brand-logo>img {
+        width: 54px;
+    }
+}

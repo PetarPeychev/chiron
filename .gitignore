@@ -2,6 +2,8 @@
 research/
 keys/
 canned-fish/
+chi_old/
+old_polls/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

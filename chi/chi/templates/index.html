@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chiron: Your AI Chess Coach{% endblock %}
+
+{% block header %}
+<nav class="grey darken-4">
+  <div class="nav-wrapper">
+    <a href="#!" class="brand-logo logo"><img src="{% static 'img/bow-no-border.png' %}" alt="Chiron">Chiron</a>
+    <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <li><a href="">About</a></li>
+      <li><a href="">Features</a></li>
+      <li><a href="{% url 'register' %}"><i class="material-icons left">person_add</i>Sign up</a></li>
+      <li><a href="{% url 'login' %}"><i class="material-icons left">login</i>Sign in</a></li>
+    </ul>
+  </div>
+</nav>
+
+<ul class="sidenav grey darken-2" id="mobile">
+  <li><a href="">About</a></li>
+  <li><a href="">Features</a></li>
+  <li><a href="{% url 'register' %}"><i class="material-icons left">person_add</i>Sign up</a></li>
+  <li><a href="{% url 'login' %}"><i class="material-icons left">login</i>Sign in</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+</div>
+{% endblock %}

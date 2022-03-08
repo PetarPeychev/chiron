@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}Chiron{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% block head %}{% endblock %}
+</head>
+
+{% block header %}
+<nav class="grey darken-4">
+  <div class="nav-wrapper">
+    <a href="#!" class="brand-logo logo"><img src="{% static 'img/bow-no-border.png' %}" alt="Chiron">Chiron</a>
+    <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <li><a href=""><i class="material-icons">account_circle</i></a></li>
+      <li><a href="{% url 'logout' %}"><i class="material-icons">logout</i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<ul class="sidenav grey darken-3" id="mobile">
+  <li><a href=""><i class="material-icons left">account_circle</i>{{ user.username }}</a></li>
+  <li><a href="{% url 'logout' %}"><i class="material-icons">logout</i></a></li>
+</ul>
+{% endblock %}
+
+<body class="">
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  {% block footer %}
+  <footer class="page-footer grey darken-4">
+    <div class="container">
+      <a href="https://petarpeychev.com/">Petar Peychev</a>
+      <span>2022</span>
+      <ul class="right">
+        <li><a href="">About</a></li>
+        <li><a href="">Features</a></li>
+      </ul>
+    </div>
+  </footer>
+  {% endblock %}
+
+  {% block javascript %}
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.datepicker').datepicker({ 'format': 'yyyy-mm-dd' });
+      $('select').formSelect();
+    });
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('.sidenav').sidenav();
+    });
+  </script>
+  {% endblock %}
+
+</body>
+
+</html>
