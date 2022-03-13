@@ -15,12 +15,13 @@ from .models import *
 
 def index(request):
     if request.user.is_authenticated:
-        rating_history = LichessClient.get_user_rating_history("petarpeychev")
-        user_data = LichessClient.get_user_data("petarpeychev")
-        bullet_performance = LichessClient.get_performance_statistics("petarpeychev", "bullet")
-        blitz_performance = LichessClient.get_performance_statistics("petarpeychev", "blitz")
-        rapid_performance = LichessClient.get_performance_statistics("petarpeychev", "rapid")
-        classical_performance = LichessClient.get_performance_statistics("petarpeychev", "classical")
+        lichess_username = LichessAccount.objects.filter(user=request.user).first().username
+        rating_history = LichessClient.get_user_rating_history(lichess_username)
+        user_data = LichessClient.get_user_data(lichess_username)
+        bullet_performance = LichessClient.get_performance_statistics(lichess_username, "bullet")
+        blitz_performance = LichessClient.get_performance_statistics(lichess_username, "blitz")
+        rapid_performance = LichessClient.get_performance_statistics(lichess_username, "rapid")
+        classical_performance = LichessClient.get_performance_statistics(lichess_username, "classical")
         
         bullet_data = []
         bullet_labels = []
@@ -48,6 +49,50 @@ def index(request):
                 for point in game_type["points"]:
                     classical_labels.append(f"{str(point[2])}.{str(point[1] + 1)}.{str(point[0])}")
                     classical_data.append(point[3])
+        
+        bullet_data = [
+            bullet_data[index] 
+            for index 
+            in range(0, len(bullet_data), int(max(1, len(bullet_data) / 100)))
+        ]
+        bullet_labels = [
+            bullet_labels[index] 
+            for index 
+            in range(0, len(bullet_labels), int(max(1, len(bullet_labels) / 100)))
+        ]
+        
+        blitz_data = [
+            blitz_data[index] 
+            for index 
+            in range(0, len(blitz_data), int(max(1, len(blitz_data) / 100)))
+        ]
+        blitz_labels = [
+            blitz_labels[index] 
+            for index 
+            in range(0, len(blitz_labels), int(max(1, len(blitz_labels) / 100)))
+        ]
+        
+        rapid_data = [
+            rapid_data[index] 
+            for index 
+            in range(0, len(rapid_data), int(max(1, len(rapid_data) / 100)))
+        ]
+        rapid_labels = [
+            rapid_labels[index] 
+            for index 
+            in range(0, len(rapid_labels), int(max(1, len(rapid_labels) / 100)))
+        ]
+        
+        classical_data = [
+            classical_data[index] 
+            for index 
+            in range(0, len(classical_data), int(max(1, len(classical_data) / 100)))
+        ]
+        classical_labels = [
+            classical_labels[index] 
+            for index 
+            in range(0, len(classical_labels), int(max(1, len(classical_labels) / 100)))
+        ]
         
         return render(request, "home.html", {
             "rating_history": {

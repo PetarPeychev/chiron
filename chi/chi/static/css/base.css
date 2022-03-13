@@ -36,6 +36,10 @@ nav {
     padding: 20px;
 }
 
+blockquote {
+    color: #444;
+}
+
 .page-footer {
     padding-top: 10px;
     padding-bottom: 10px;

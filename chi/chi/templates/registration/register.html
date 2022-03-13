@@ -19,7 +19,7 @@
     <form method="post" class="grey lighten-4">
       {% csrf_token %}
       {{ form|materializecss }}
-      <button class="waves-effect waves-light btn chiron-red" type="submit">Sign In</button>
+      <button class="waves-effect waves-light btn chiron-red" type="submit">Sign Up</button>
     </form>
     <div class="form-extra">
       <span>Already have an account? <a href="{% url 'login' %}">Sign in.</a></span>

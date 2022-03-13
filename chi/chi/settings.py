@@ -70,13 +70,14 @@ DEBUG = env("DEBUG")
 # SECURITY WARNING: It's recommended that you use this when
 # running in production. The URL will be known once you first deploy
 # to Cloud Run. This code takes the URL and converts it to both these settings formats.
-CLOUDRUN_SERVICE_URL = env("CLOUDRUN_SERVICE_URL", default=None)
-if CLOUDRUN_SERVICE_URL:
-    ALLOWED_HOSTS = [urlparse(CLOUDRUN_SERVICE_URL).netloc]
-    CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL]
-    SECURE_SSL_REDIRECT = True
+CLOUD_RUN_SERVICE_URL = env("CLOUD_RUN_SERVICE_URL", default=None)
+if CLOUD_RUN_SERVICE_URL:
+    ALLOWED_HOSTS = [urlparse(CLOUD_RUN_SERVICE_URL).netloc]
+    CSRF_TRUSTED_ORIGINS = [CLOUD_RUN_SERVICE_URL]
+    # SECURE_SSL_REDIRECT = True
 else:
     ALLOWED_HOSTS = ["*"]
+
 # [END cloudrun_django_csrf]
 
 # Application definition
@@ -179,6 +180,9 @@ STATIC_URL = "/static/"
 DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 GS_DEFAULT_ACL = "publicRead"
+GS_OBJECT_PARAMETERS = {
+    "cache_control": "no-cache"
+}
 # [END cloudrun_django_static_config]
 
 # Default primary key field type

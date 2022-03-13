@@ -7,7 +7,7 @@ function populate_rating_history(rating_history) {
                 data: rating_history["bullet_data"],
                 fill: true,
                 borderColor: 'rgb(244, 78, 86)',
-                tension: 0.1,
+                lineTension: 0.5,
                 pointRadius: 0,
             }]
         },
@@ -28,7 +28,7 @@ function populate_rating_history(rating_history) {
                 data: rating_history["blitz_data"],
                 fill: true,
                 borderColor: 'rgb(244, 78, 86)',
-                tension: 0.1,
+                lineTension: 0.5,
                 pointRadius: 0,
             }]
         },
@@ -49,7 +49,7 @@ function populate_rating_history(rating_history) {
                 data: rating_history["rapid_data"],
                 fill: true,
                 borderColor: 'rgb(244, 78, 86)',
-                tension: 0.1,
+                lineTension: 0.5,
                 pointRadius: 0,
             }]
         },
@@ -70,7 +70,7 @@ function populate_rating_history(rating_history) {
                 data: rating_history["classical_data"],
                 fill: true,
                 borderColor: 'rgb(244, 78, 86)',
-                tension: 0.1,
+                lineTension: 0.5,
                 pointRadius: 0,
             }]
         },
@@ -86,6 +86,7 @@ function populate_rating_history(rating_history) {
 
 function populate_bullet_performance(performance) {
     window.bullet_games_pie_chart = new Chart($('#bullet-games-pie')[0].getContext('2d'), {
+        plugins: [ChartDataLabels],
         type: 'pie',
         data: {
             datasets: [{
@@ -108,6 +109,7 @@ function populate_bullet_performance(performance) {
     });
 
     window.bullet_results_pie_chart = new Chart($('#bullet-results-pie')[0].getContext('2d'), {
+        plugins: [ChartDataLabels],
         type: 'pie',
         data: {
             datasets: [{
@@ -132,6 +134,7 @@ function populate_bullet_performance(performance) {
 
 function populate_blitz_performance(performance) {
     window.blitz_games_pie_chart = new Chart($('#blitz-games-pie')[0].getContext('2d'), {
+        plugins: [ChartDataLabels],
         type: 'pie',
         data: {
             datasets: [{
@@ -154,6 +157,7 @@ function populate_blitz_performance(performance) {
     });
 
     window.blitz_results_pie_chart = new Chart($('#blitz-results-pie')[0].getContext('2d'), {
+        plugins: [ChartDataLabels],
         type: 'pie',
         data: {
             datasets: [{
@@ -178,6 +182,7 @@ function populate_blitz_performance(performance) {
 
 function populate_rapid_performance(performance) {
     window.rapid_games_pie_chart = new Chart($('#rapid-games-pie')[0].getContext('2d'), {
+        plugins: [ChartDataLabels],
         type: 'pie',
         data: {
             datasets: [{
@@ -200,6 +205,7 @@ function populate_rapid_performance(performance) {
     });
 
     window.rapid_results_pie_chart = new Chart($('#rapid-results-pie')[0].getContext('2d'), {
+        plugins: [ChartDataLabels],
         type: 'pie',
         data: {
             datasets: [{
@@ -224,6 +230,7 @@ function populate_rapid_performance(performance) {
 
 function populate_classical_performance(performance) {
     window.classical_games_pie_chart = new Chart($('#classical-games-pie')[0].getContext('2d'), {
+        plugins: [ChartDataLabels],
         type: 'pie',
         data: {
             datasets: [{
@@ -246,6 +253,7 @@ function populate_classical_performance(performance) {
     });
 
     window.classical_results_pie_chart = new Chart($('#classical-results-pie')[0].getContext('2d'), {
+        plugins: [ChartDataLabels],
         type: 'pie',
         data: {
             datasets: [{

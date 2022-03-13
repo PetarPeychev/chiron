@@ -28,10 +28,10 @@ SUFFIX = uuid.uuid4().hex[:10]
 
 SAMPLE_VERSION = os.environ.get("SAMPLE_VERSION", None)
 GOOGLE_CLOUD_PROJECT = os.environ["GOOGLE_CLOUD_PROJECT"]
-REGION = "us-central1"
+REGION = "europe-west6"
 PLATFORM = "managed"
 
-SERVICE = f"polls-{SUFFIX}"
+SERVICE = f"chi-{SUFFIX}"
 
 # Retreieve Cloud SQL test config
 POSTGRES_INSTANCE = os.environ.get("POSTGRES_INSTANCE", None)
@@ -53,7 +53,7 @@ POSTGRES_DATABASE = f"django-database-{SUFFIX}"
 
 CLOUD_STORAGE_BUCKET = f"{GOOGLE_CLOUD_PROJECT}-media-{SUFFIX}"
 
-POSTGRES_DATABASE = f"polls-{SUFFIX}"
+POSTGRES_DATABASE = f"chi-{SUFFIX}"
 POSTGRES_USER = f"django-{SUFFIX}"
 POSTGRES_PASSWORD = uuid.uuid4().hex[:26]
 
@@ -208,4 +208,4 @@ def test_end_to_end(service_url_auth_token: List[str]) -> None:
     assert response.status_code == 200
     assert "Please enter the correct username and password" not in body
     assert "Site administration" in body
-    assert "Polls" in body
+    assert "Chi" in body

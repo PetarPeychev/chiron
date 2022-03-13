@@ -35,12 +35,13 @@ class RegistrationForm(forms.Form):
 
         return password2
     
-    def clean_lichess_account(self):
-        lichess_account = self.cleaned_data['lichess_account'].lower()
-        existing_accounts = LichessAccount.objects.filter(username=lichess_account)
-        if not existing_usernames.count():
-            LichessAccount()
-        return lichess_account
+    # TODO: Add validation for lichess account being real.
+    # def clean_lichess_account(self):
+    #     lichess_account = self.cleaned_data['lichess_account'].lower()
+    #     existing_accounts = LichessAccount.objects.filter(username=lichess_account)
+    #     if not existing_accounts.count():
+    #         new_account = LichessAccount()
+    #     return lichess_account
 
     def save(self, commit=True):
         user = User.objects.create_user(
@@ -48,9 +49,9 @@ class RegistrationForm(forms.Form):
             self.cleaned_data['email'],
             self.cleaned_data['password1']
         )
-        
-        existing_lichess_accounts = LichessAccount.objects.filter(username=self.cleaned_data['lichess_account'].lower())
-        if not existing_lichess_accounts.count():
-            pass
-        
+
+        lichess_username = self.cleaned_data['lichess_account'].lower()
+        lichess_account = LichessAccount(user=user, username=lichess_username)
+        lichess_account.save()
+
         return user
