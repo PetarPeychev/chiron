@@ -5,7 +5,7 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-requirements = []
+requirements = ["google-cloud-bigquery"]
 test_requirements = ["pytest", "pytest-cov", "pytest-pylint"]
 
 setuptools.setup(name="lyre",
