@@ -1,6 +1,5 @@
 import io
 from typing import Dict, Any, List
-from datetime import datetime
 
 import requests
 import chess
