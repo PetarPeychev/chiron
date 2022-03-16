@@ -5,10 +5,9 @@ import chess
 import chess.pgn
 import chess.engine
 from flask import Flask
-from google.cloud import bigquery
 
-from lyre import LichessClient, AmbrosiaClient
-from fishcan import Game
+from lyre.clients import LichessClient, AmbrosiaClient
+from lyre.analysis import analyse_game
 
 NUM_GAMES = 100
 
@@ -19,11 +18,10 @@ stockfish = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish")
 
 @app.route("/ingest")
 def ingest():
-    all_users = ambrosia.get_all_player_names()
-    username, lichess_username = random.choice(all_users)
-    newest_game_timestamp = ambrosia.get_newest_game_time(lichess_username)
+    player = random.choice(ambrosia.get_all_player_names())
+    newest_game_timestamp = ambrosia.get_newest_game_time(player)
     games = LichessClient.get_games(
-        lichess_username,
+        player,
         since=int(newest_game_timestamp.timestamp() * 1000),
         max=NUM_GAMES,
         rated=True,
@@ -31,10 +29,9 @@ def ingest():
         clocks=True,
         sort="dateAsc")
     processed = 0
-    for pychess_game in games:
-        game = Game.from_pychess(pychess_game, username, lichess_username)
-        game.analyse(stockfish)
-        # game.to_bigquery(self.bigquery)
+    for game in games:
+        analysed_game = analyse_game(game, stockfish)
+        # TODO: to ambrosia
         processed += 1
     if processed < NUM_GAMES:
         ingest(NUM_GAMES - processed)
