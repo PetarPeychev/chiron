@@ -1,5 +1,7 @@
 from __future__ import annotations
+from typing import List
 
+from ._engine_line import EngineLine
 
 class AnalysedMove:
     """Analysed player move."""
@@ -15,7 +17,7 @@ class AnalysedMove:
         self.score_before = None
         self.score_after = None
         self.score_delta = None
-        self.engine_lines = []
+        self.engine_lines: List[EngineLine] = []
 
     # def material_value(self, colour: chess.Color) -> int:
     #     values = []

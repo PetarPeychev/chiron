@@ -1,5 +1,7 @@
 from __future__ import annotations
+from typing import List
 
+from ._analysed_move import AnalysedMove
 
 class AnalysedGame:
     """Analysed player game."""
@@ -20,4 +22,4 @@ class AnalysedGame:
         self.termination = None
         self.lichess_id = None
         self.pgn = None
-        self.moves = []
+        self.moves: List[AnalysedMove] = []

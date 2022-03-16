@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import List
 
 
 class EngineLine:
@@ -7,4 +8,4 @@ class EngineLine:
     def __init__(self) -> EngineLine:
         self.score_after = None
         self.score_delta = None
-        self.sequence = []
+        self.sequence: List[str] = []
