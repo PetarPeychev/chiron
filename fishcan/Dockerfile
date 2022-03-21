@@ -1,6 +1,6 @@
 # Use the official lightweight Python image.
 # https://hub.docker.com/_/python
-FROM python:3.8-slim
+FROM python:3.10-slim
 
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
@@ -10,8 +10,12 @@ ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY . ./
 
-# Install stockfish chess engine
+# Install stockfish chess engine.
+RUN apt update
 RUN apt install stockfish
+
+# Install Lyre utilities.
+RUN pip install --no-cache-dir ./lyre
 
 # Install production dependencies.
 RUN pip install --no-cache-dir -r requirements.txt

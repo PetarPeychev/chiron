@@ -1,0 +1,10 @@
+Dockerfile
+README.md
+*.pyc
+*.pyo
+*.pyd
+*.ipynb
+format.sh
+lint.sh
+__pycache__
+.pytest_cache
