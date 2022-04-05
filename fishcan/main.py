@@ -9,13 +9,14 @@ from lyre.clients import LichessClient, AmbrosiaClient
 from lyre.analysis import analyse_game
 
 NUM_GAMES = 10
+MAX_RETRIES = 5
 
 app = Flask(__name__)
 ambrosia = AmbrosiaClient()
 stockfish = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish")
 
 
-def _ingest_games(num_games: int):
+def _ingest_games(num_games: int, max_retries: int):
     player = random.choice(ambrosia.get_all_player_names())
     newest_game_timestamp = ambrosia.get_newest_game_time(player)
     if newest_game_timestamp is None:
@@ -29,17 +30,19 @@ def _ingest_games(num_games: int):
         clocks=True,
         sort="dateAsc")
     processed = 0
+    if len(games) < 1:
+        max_retries -= 1
     for game in games:
         analysed_game = analyse_game(game, player, stockfish)
         ambrosia.insert_game(analysed_game)
         processed += 1
-    if processed < num_games:
-        _ingest_games(num_games - processed)
+    if processed < num_games and max_retries > 0:
+        _ingest_games(num_games - processed, max_retries)
 
 
 @app.route("/ingest")
 def ingest():
-    _ingest_games(NUM_GAMES)
+    _ingest_games(NUM_GAMES, MAX_RETRIES)
     return "Great Success!\nhttps://www.youtube.com/watch?v=r13riaRKGo0"
 
 

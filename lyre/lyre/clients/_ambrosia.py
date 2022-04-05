@@ -3,7 +3,7 @@ from typing import List, Dict, Any, Optional
 
 from google.cloud import bigquery
 
-from lyre.analysis import AnalysedGame
+from lyre.analysis import AnalysedGame, AnalysedMove, EngineLine
 
 
 class AmbrosiaClient:
@@ -53,6 +53,35 @@ class AmbrosiaClient:
         else:
             return None
 
+    def get_opening_blunder_games(self, player_name: str) -> List[AnalysedGame]:
+        query_job = self._bigquery.query(f"""
+            WITH
+                blunders AS (
+                    SELECT
+                        DISTINCT(lichess_id) AS id
+                    FROM
+                        `chiron-chess.facts.game`,
+                        UNNEST(moves) AS move
+                    WHERE
+                        move.score_delta < -200
+                        AND move.move_number < 7 )
+            SELECT
+                *
+            FROM
+                `chiron-chess.facts.game`
+            WHERE
+                name_player = "{player_name}"
+            AND
+                lichess_id IN ((
+                    SELECT
+                    id
+                    FROM
+                    blunders))
+            """)
+        results = [row for row in query_job]
+        games = self._query_to_games(results)
+        return games
+
     def insert_game(self, game: AnalysedGame):
         """Insert a new analysed game into the data warehouse.
 
@@ -79,6 +108,7 @@ class AmbrosiaClient:
 
         for move in game.moves:
             move_row = {
+                "move_number": move.move_number,
                 "move": move.move,
                 "move_before": move.move_before,
                 "move_after": move.move_after,
@@ -101,3 +131,44 @@ class AmbrosiaClient:
             rows[0]["moves"].append(move_row)
 
         self._bigquery.insert_rows_json("chiron-chess.facts.game", rows)
+
+    def _query_to_games(self, results: List[Any]) -> List[AnalysedGame]:
+        games = []
+        for result in results:
+            game = AnalysedGame()
+            game.name_player = result.name_player
+            game.name_opponent = result.name_opponent
+            game.source = result.source
+            game.colour_player = result.colour_player
+            game.result = result.result
+            game.elo_player = result.elo_player
+            game.elo_opponent = result.elo_opponent
+            game.timestamp = result.timestamp
+            game.time_control_format = result.time_control_format
+            game.opening_eco = result.opening_eco
+            game.ply_count = result. ply_count
+            game.termination = result.termination
+            game.lichess_id = result.lichess_id
+            game.pgn = result.pgn
+            game.moves = []
+            for move in result.moves:
+                current_move = AnalysedMove()
+                current_move.move_number = move["move_number"]
+                current_move.move = move["move"]
+                current_move.move_before = move["move_before"]
+                current_move.move_after = move["move_after"]
+                current_move.fen_before = move["fen_before"]
+                current_move.fen_after = move["fen_after"]
+                current_move.score_before = move["score_before"]
+                current_move.score_after = move["score_after"]
+                current_move.score_delta = move["score_delta"]
+                current_move.engine_lines = []
+                for line in move["engine_lines"]:
+                    current_line = EngineLine()
+                    current_line.score_after = line["score_after"]
+                    current_line.score_delta = line["score_delta"]
+                    current_line.sequence = line["sequence"]
+                    current_move.engine_lines.append(current_line)
+                game.moves.append(current_move)
+            games.append(game)
+        return games

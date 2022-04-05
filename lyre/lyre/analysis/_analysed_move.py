@@ -9,6 +9,7 @@ class AnalysedMove:
     def __init__(self) -> AnalysedMove:
         self.board_before = None
         self.board_after = None
+        self.move_number = None
         self.move = None
         self.move_before = None
         self.move_after = None

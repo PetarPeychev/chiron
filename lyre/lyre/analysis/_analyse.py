@@ -15,8 +15,11 @@ def analyse_game(game: Game, player: str, engine: SimpleEngine) -> AnalysedGame:
     white = analysed_game.colour_player == "white"
 
     moves = [move for move in analysed_game.game.mainline()]
+    move_number = 0
     for i in range(0 if white else 1, len(moves), 2):
+        move_number += 1
         analysed_move = AnalysedMove()
+        analysed_move.move_number = move_number
         analysed_move.move = moves[i].uci()
         analysed_move.board_after = moves[i].board()
         
