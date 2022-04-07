@@ -82,6 +82,21 @@ class AmbrosiaClient:
         games = self._query_to_games(results)
         return games
 
+    def get_recent_player_games(self, player_name: str, number: int) -> List[AnalysedGame]:
+        query_job = self._bigquery.query(f"""
+            SELECT
+                *
+            FROM
+                `chiron-chess.facts.game`
+            WHERE
+                name_player = "{player_name}"
+            LIMIT
+                {number}
+            """)
+        results = [row for row in query_job]
+        games = self._query_to_games(results)
+        return games
+
     def insert_game(self, game: AnalysedGame):
         """Insert a new analysed game into the data warehouse.
 
