@@ -8,7 +8,7 @@ import chess.pgn
 from lyre.analysis import AnalysedGame
 
 
-def opening_tree(games: List[AnalysedGame]) -> chess.pgn.Game:
+def opening_tree(games: List[AnalysedGame], skip_blunders: bool = False, threshold: int = -200) -> chess.pgn.Game:
     white: List[AnalysedGame] = []
     black: List[AnalysedGame] = []
     for game in games:
@@ -27,15 +27,16 @@ def opening_tree(games: List[AnalysedGame]) -> chess.pgn.Game:
                 move = game.moves[i]
             except IndexError:
                 break
-            if move.score_delta > -200:
+            if move.score_delta < threshold:
+                if not skip_blunders:
+                    moves.append(chess.Move.from_uci(move.engine_lines[0].sequence[0]))
+                break
+            else:
                 moves.append(chess.Move.from_uci(move.move))
                 try:
                     moves.append(chess.Move.from_uci(move.move_after))
                 except ValueError:
                     break
-            else:
-                moves.append(chess.Move.from_uci(move.engine_lines[0].sequence[0]))
-                break
         opening = chess.pgn.Game()
         opening.add_line(moves)
         white_openings.append(opening)
@@ -48,14 +49,15 @@ def opening_tree(games: List[AnalysedGame]) -> chess.pgn.Game:
             except IndexError:
                 break
             try:
-                    moves.append(chess.Move.from_uci(move.move_before))
+                moves.append(chess.Move.from_uci(move.move_before))
             except ValueError:
                 break
-            if move.score_delta > -200:
-                moves.append(chess.Move.from_uci(move.move))
-            else:
-                moves.append(chess.Move.from_uci(move.engine_lines[0].sequence[0]))
+            if move.score_delta < threshold:
+                if not skip_blunders:
+                    moves.append(chess.Move.from_uci(move.engine_lines[0].sequence[0]))
                 break
+            else:
+                moves.append(chess.Move.from_uci(move.move))
         opening = chess.pgn.Game()
         opening.add_line(moves)
         black_openings.append(opening)
