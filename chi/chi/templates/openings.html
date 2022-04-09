@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/openings.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col l12 m12 s12">
+            <div class="card grey-1">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col l6 m6 s12">
+                            <div class="chessboard" id="board" style="width: 400px"></div>
+                        </div>
+                        <div class="col l6 m6 s12">
+                            <div class="chessboard right" id="board2" style="width: 400px"></div>
+                        </div>
+                    </div>
+                </div>
+            </dir>
+        </dir>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+<script src="{% static 'js/openings.js' %}"></script>
+{% endblock %}

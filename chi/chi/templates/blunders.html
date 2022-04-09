@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="col l4 m4 s4">
+        <div id="board" style="width: 100%;"></div>
+        <div id="board-buttons" style="text-align:center">
+          <button type="button" class="btn btn-default" id="btnStart"><i class="fa fa-fast-backward fa-lg"></i></button>
+          <button type="button" class="btn btn-default" id="btnPrevious"><i class="fa fa-step-backward fa-lg"></i></button>
+          <button type="button" class="btn btn-default" id="btnNext"><i class="fa fa-step-forward fa-lg"></i></button>
+          <button type="button" class="btn btn-default" id="btnEnd"><i class="fa fa-fast-forward fa-lg"></i></button>
+        </div>
+      </div>
+      <div class="col l8 m8 s8">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="gameSelect" class="col l4 m4 s4 control-label">Select game:</label>
+            <div class="col l8 m8 s8">
+              <select id="gameSelect" class="form-control input-sm" onchange="loadGame(this.value);return false;"></select>
+            </div>
+          </div>
+        </form>
+        <div id="game-data">
+        </div>
+      </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+<script src="{% static 'js/blunders.js' %}"></script>
+{% endblock %}

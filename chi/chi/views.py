@@ -114,6 +114,11 @@ def index(request):
     else:
         return render(request, "index.html")
 
+def openings(request):
+    return render(request, "openings.html")
+
+def blunders(request):
+    return render(request, "blunders.html")
 
 def register(request):
     if request.user.is_authenticated:

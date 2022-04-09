@@ -8,7 +8,7 @@ from flask import Flask
 from lyre.clients import LichessClient, AmbrosiaClient
 from lyre.analysis import analyse_game
 
-NUM_GAMES = 10
+NUM_GAMES = 20
 MAX_RETRIES = 5
 
 app = Flask(__name__)
@@ -33,9 +33,12 @@ def _ingest_games(num_games: int, max_retries: int):
     if len(games) < 1:
         max_retries -= 1
     for game in games:
-        analysed_game = analyse_game(game, player, stockfish)
-        ambrosia.insert_game(analysed_game)
-        processed += 1
+        try:
+            analysed_game = analyse_game(game, player, stockfish)
+            ambrosia.insert_game(analysed_game)
+            processed += 1
+        except Exception as ex:
+            print(ex)
     if processed < num_games and max_retries > 0:
         _ingest_games(num_games - processed, max_retries)
 
