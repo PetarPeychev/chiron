@@ -8,26 +8,63 @@
 
 {% block content %}
 <div class="container">
+    {% for row in opening_alternatives %}
     <div class="row">
-        <div class="col l12 m12 s12">
-            <div class="card grey-1">
-                <div class="card-content">
-                    <div class="row">
-                        <div class="col l6 m6 s12">
-                            <div class="chessboard" id="board" style="width: 400px"></div>
+        <div class="card grey-1">
+            <div class="card-content card-main">
+                <div class="card-title">
+                    {{ row.title }}
+                </div>
+                <div class="row">
+                    <div class="col l6 m6 s12">
+                        <div class="card grey-2">
+                            <div class="card-content card-board">
+                                <div class="chessboard" id="board_{{ row.id }}_0"></div>
+                            </div>
                         </div>
-                        <div class="col l6 m6 s12">
-                            <div class="chessboard right" id="board2" style="width: 400px"></div>
+                    </div>
+                    <div class="col l6 m6 s12">
+                        <div class="card grey-2">
+                            <div class="card-content">
+                                <span class="card-title">Opening Mistake</span>
+                                In a recent game in this position, the move <strong class="red-text text-lighten-3">{{ row.move_uci }}</strong> has resulted in a negative swing of <strong class="red-text text-lighten-3">{{ row.score_loss }}</strong> centipawns.<br><br>
+                                <strong>Preceeding Line:</strong> {{ row.preceeding_line|safe }}<br>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </dir>
-        </dir>
+                <div class="row">
+                    <div class="col l6 m6 s12">
+                        <div class="card grey-2">
+                            <div class="card-content card-board">
+                                <div class="chessboard" id="board_{{ row.id }}_1"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l6 m6 s12">
+                        <div class="card grey-2">
+                            <div class="card-content">
+                                <span class="card-title">Alternative Suggestion</span>
+                                <strong>Current Rating:</strong> {{ blitz_performance.perf.glicko.rating|floatformat:0 }}<br>
+                                <strong>Highest Rating:</strong> {{ blitz_performance.stat.highest.int }}<br>
+                                <strong>Lowest Rating:</strong> {{ blitz_performance.stat.lowest.int }}<br><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    {% endfor %}
 </div>
 {% endblock %}
 
 {% block javascript %}
 {{ block.super }}
 <script src="{% static 'js/openings.js' %}"></script>
+<script>
+    {% for row in opening_alternatives %}
+    loadBoard("{{ row.id|safe }}", "{{ row.blunder_fen|safe }}", "{{ row.before_fen|safe }}", "{{ row.orientation|safe }}", "{{ row.move_uci|safe }}", "{{ row.alternative_uci|safe }}") 
+    {%endfor %}
+</script>
 {% endblock %}

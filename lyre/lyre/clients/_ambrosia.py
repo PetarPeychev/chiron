@@ -77,6 +77,7 @@ class AmbrosiaClient:
                     id
                     FROM
                     blunders))
+            ORDER BY timestamp DESC
             """)
         results = [row for row in query_job]
         games = self._query_to_games(results)
@@ -90,6 +91,7 @@ class AmbrosiaClient:
                 `chiron-chess.facts.game`
             WHERE
                 name_player = "{player_name}"
+            ORDER BY timestamp DESC
             LIMIT
                 {number}
             """)

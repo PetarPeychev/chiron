@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from lyre import LichessClient
+from lyre.clients import LichessClient, AmbrosiaClient
 
 from .forms import RegistrationForm
 from .models import *
@@ -115,7 +115,45 @@ def index(request):
         return render(request, "index.html")
 
 def openings(request):
-    return render(request, "openings.html")
+    lichess_username = LichessAccount.objects.filter(user=request.user).first().username
+    user_data = LichessClient.get_user_data(lichess_username)
+    ambrosia = AmbrosiaClient()
+    opening_blunder_games = ambrosia.get_opening_blunder_games(lichess_username)
+    opening_alternatives = []
+    for game in opening_blunder_games:
+        blunder = None
+        preceeding_line = ""
+        for move in game.moves:
+            if move.score_delta <= -200:
+                blunder = move
+                if game.colour_player == "white":
+                    preceeding_line += str(move.move_number) + ". <strong class=\"red-text text-lighten-3\">" + move.move + "</strong>"
+                else:
+                    preceeding_line += str(move.move_number) + ". <strong class=\"red-text text-lighten-3\">" + move.move_before + " " + move.move + "</strong>"
+                break
+            elif game.colour_player == "white":
+                preceeding_line += str(move.move_number) + ". " + move.move + " " + move.move_after + "  "
+            else:
+                preceeding_line += str(move.move_number) + ". " + move.move_before + " " + move.move + "  "
+        if game.colour_player == "white":
+            title = f"{game.name_player} ({game.elo_player}) vs {game.name_opponent} ({game.elo_opponent})"
+        else:
+            title = f"{game.name_opponent} ({game.elo_opponent}) vs {game.name_player} ({game.elo_player})"
+        opening_alternatives.append({
+            "id": game.lichess_id,
+            "before_fen": blunder.fen_before,
+            "blunder_fen": blunder.fen_after,
+            "orientation": game.colour_player,
+            "move_uci": blunder.move,
+            "alternative_uci": blunder.engine_lines[0].sequence[0],
+            "title": title,
+            "score_loss": -blunder.score_delta,
+            "preceeding_line": preceeding_line,
+        })
+    return render(request, "openings.html", {
+        "opening_alternatives": opening_alternatives,
+        "user_data": user_data,
+    })
 
 def blunders(request):
     return render(request, "blunders.html")

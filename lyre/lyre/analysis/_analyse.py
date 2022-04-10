@@ -29,14 +29,14 @@ def analyse_game(game: Game, player: str, engine: SimpleEngine) -> AnalysedGame:
         else:
             analysed_move.move_before = moves[i - 1].uci()
             analysed_move.board_before = moves[i - 1].board()
-            analysed_move.fen_before = str(moves[i - 1].board())
+            analysed_move.fen_before = moves[i - 1].board().fen()
         if i != len(moves) - 1:
             analysed_move.move_after = moves[i + 1].uci()
 
         engine_analysis_before = engine.analyse(analysed_move.board_before, Limit(depth=16), multipv=3, options={"Analysis Contempt": "Off", "Contempt": "0", "Threads": "4"})
         analysed_move.score_before = engine_analysis_before[0]["score"].relative.score(mate_score=10000)
         analysed_move.board_after = moves[i].board()
-        analysed_move.fen_after = str(moves[i].board())
+        analysed_move.fen_after = moves[i].board().fen()
         engine_analysis_after = engine.analyse(moves[i].board(), Limit(depth=16), options={"Analysis Contempt": "Off", "Contempt": "0", "Threads": "4"})
         analysed_move.score_after = -engine_analysis_after["score"].relative.score(mate_score=10000)
         analysed_move.score_delta = analysed_move.score_after - analysed_move.score_before

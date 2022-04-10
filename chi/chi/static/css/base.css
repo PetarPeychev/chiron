@@ -32,6 +32,10 @@ nav {
     background: #121212;
 }
 
+hr {
+    margin: 0;
+}
+
 .form-container {
     padding: 20px;
 }
